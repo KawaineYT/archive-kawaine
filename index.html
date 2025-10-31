@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Kawaine Files</title>
+  <style>
+    @keyframes glitch {
+      0% { clip: rect(24px, 9999px, 90px, 0); transform: skew(0.3deg); }
+      20% { clip: rect(85px, 9999px, 140px, 0); transform: skew(0.1deg); }
+      40% { clip: rect(10px, 9999px, 60px, 0); transform: skew(0.2deg); }
+      60% { clip: rect(60px, 9999px, 120px, 0); transform: skew(0.4deg); }
+      80% { clip: rect(40px, 9999px, 100px, 0); transform: skew(0.1deg); }
+      100% { clip: rect(0, 9999px, 9999px, 0); transform: skew(0deg); }
+    }
+
+    body {
+      background-color: #000;
+      color: #ff1a1a;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3em;
+      animation: glitch 1.5s infinite;
+      position: relative;
+      cursor: pointer;
+    }
+
+    h1:hover::after {
+      content: "DON’T LOOK TOO LONG";
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 0.7em;
+      opacity: 0.6;
+    }
+
+    p {
+      margin-top: 15px;
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #ff4444;
+      text-shadow: 0 0 10px #ff0000;
+    }
+
+    .static {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.imgur.com/5M9XK0J.gif');
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #click {
+      font-size: 2em;
+      animation: glitch 1.5s infinite;
+      color: #ff1a1a;
+    }
+  </style>
+</head>
+<body>
+  <div class="static"></div>
+
+  <!-- Écran d’attente -->
+  <h1 id="click">CLICK TO BEGIN</h1>
+
+  <!-- Contenu principal masqué au début -->
+  <div id="content" style="display:none;">
+    <h1>IT’S BACK.</h1>
+    <p>They tried to delete the footage.<br>They failed.</p>
+    <p>31.10 — inconnus — <a href="pshtt//:likanewi"></a></p>
+  </div>
+
+  <!-- Audio du robot -->
+  <audio id="robotAudio" loop>
+    <source src="robot_url.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const click = document.getElementById('click');
+    const content = document.getElementById('content');
+    const audio = document.getElementById('robotAudio');
+
+    click.addEventListener('click', () => {
+      click.style.display = 'none';
+      content.style.display = 'block';
+      audio.play();
+    });
+  </script>
+</body>
+</html>
