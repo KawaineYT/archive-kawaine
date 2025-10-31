@@ -12,7 +12,9 @@
       --accent:#ff4444;
       --term-bg:rgba(0,0,0,0.85);
     }
-    html,body{height:100%;margin:0;background:#000;font-family:"Lucida Console",monospace;color:var(--text);}
+    html,body{
+      height:100%;margin:0;background:#000;font-family:"Lucida Console",monospace;color:var(--text);
+    }
     .wrap{display:flex;align-items:center;justify-content:center;height:100%;padding:20px;box-sizing:border-box;}
     .terminal{
       width:920px;max-width:95%;background:var(--term-bg);border-radius:8px;padding:18px;
@@ -21,8 +23,7 @@
     }
     .term-header{display:flex;gap:8px;align-items:center;margin-bottom:12px}
     .dots{display:flex;gap:6px}
-    .dot{width:12px;height:12px;border-radius:50%;}
-    .dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
+    .dot{width:12px;height:12px;border-radius:50%;}.dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
     .title{margin-left:auto;color:var(--muted);font-size:13px}
     .screen{background:#000;padding:18px;border-radius:6px;min-height:300px;overflow:auto;position:relative;}
     .line{white-space:pre-wrap;font-size:15px;line-height:1.45;}
@@ -33,7 +34,7 @@
     .blink{animation:blink 1s steps(2) infinite}
     @keyframes blink{50%{opacity:0}}
     .video-wrap{display:none;margin-top:14px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,68,68,0.06)}
-    video{width:100%;display:block;background:#000}
+    iframe{width:100%; height:360px; border:none;}
     .glitch:before,.glitch:after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0.03;background-image:linear-gradient(90deg,transparent 0 2px,rgba(255,255,255,0.04) 2px 3px,transparent 3px 100%);transform:skewY(-1deg);}
   </style>
 </head>
@@ -64,10 +65,8 @@
         </div>
 
         <div id="videoWrap" class="video-wrap">
-          <video id="footage" controls preload="metadata">
-            <source src="https://drive.google.com/uc?export=download&id=1TWE0Op6Ui4_Uk2_wu9ulq80w2Dq-trNJ" type="video/mp4">
-            Ton navigateur ne supporte pas la vidéo.
-          </video>
+          <iframe id="footage" src="https://www.youtube.com/embed/CyUOX_W7Xw4?autoplay=1" 
+                  title="Kawaine Footage" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -77,7 +76,6 @@
 const cmdInput = document.getElementById('cmd');
 const historyEl = document.getElementById('history');
 const videoWrap = document.getElementById('videoWrap');
-const footage = document.getElementById('footage');
 
 const safeWrite = (text, cls='line')=>{
   const d = document.createElement('div');
@@ -92,10 +90,10 @@ const commands = {
     safeWrite('> help', 'line');
     setTimeout(()=>{
       safeWrite('Available system calls:', 'muted');
-      safeWrite('- “ls”   → locate fragments', 'muted');
-      safeWrite('- “dec …” → attempt to rebuild header', 'muted');
-      safeWrite('- “open …” or “play …” → ???', 'muted');
-      safeWrite('Note: incomplete documentation. proceed carefully.', 'muted');
+      safeWrite('- "ls"     → locate fragments', 'muted');
+      safeWrite('- "dec …"  → attempt to rebuild header', 'muted');
+      safeWrite('- "open …" → unlock footage', 'muted');
+      safeWrite('Proceed carefully. Some files may be corrupted.', 'muted');
     },400);
   },
   ls(){
@@ -130,14 +128,12 @@ function revealVideo(){
     safeWrite('video already unlocked', 'muted');
     return;
   }
-  safeWrite('opening f00t4g3.mp4 ...', 'line');
+  safeWrite('unlocking f00t4g3...', 'line');
   setTimeout(()=>safeWrite('patching header ... done', 'muted'), 700);
-  setTimeout(()=>safeWrite('decrypting stream ███▒▒▒▒▒▒▒ 41%', 'line'), 1400);
+  setTimeout(()=>safeWrite('launching stream...', 'line'), 1400);
   setTimeout(()=>{
-    safeWrite('stream stabilized. launching player.', 'line');
     videoWrap.style.display = 'block';
-    footage.play().catch(()=>safeWrite('auto-play blocked — press ▶️', 'muted'));
-    footage.scrollIntoView({behavior:'smooth', block:'center'});
+    videoWrap.scrollIntoView({behavior:'smooth', block:'center'});
   }, 2500);
 }
 
@@ -163,7 +159,7 @@ document.getElementById('screen').addEventListener('click', ()=>cmdInput.focus()
 setTimeout(()=>{
   safeWrite('> init diagnostics', 'line');
   setTimeout(()=>safeWrite('> result: one file partially recovered', 'muted'), 700);
-  setTimeout(()=>safeWrite('> type “help” for system hints', 'muted'), 1500);
+  setTimeout(()=>safeWrite('> type "help" for system hints', 'muted'), 1500);
 },1000);
 </script>
 </body>
